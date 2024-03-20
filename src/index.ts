@@ -2,10 +2,16 @@ import express, { Express } from "express";
 import dotenv from "dotenv";
 import { connectToMongoDB } from "./config/db";
 import routes from "./routes";
+import cors from "cors";
 
 dotenv.config();
 
 const app: Express = express();
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+app.use(cors());
 
 connectToMongoDB();
 

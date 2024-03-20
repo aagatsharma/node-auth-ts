@@ -1,4 +1,8 @@
-export const success = (message: string, results: any, statusCode: number) => {
+export const successResponse = (
+  message: string,
+  results: any,
+  statusCode: number
+) => {
   return {
     message,
     error: false,
@@ -7,7 +11,7 @@ export const success = (message: string, results: any, statusCode: number) => {
   };
 };
 
-export const validation = (errors: any) => {
+export const validationResponse = (errors: any) => {
   return {
     message: "Validation error",
     error: true,
@@ -16,7 +20,7 @@ export const validation = (errors: any) => {
   };
 };
 
-export const error = (message: string, statusCode: number) => {
+export const errorResponse = (message: string, statusCode: number) => {
   const codes = [400, 401, 404, 403, 422, 500];
   const findCode = codes.find((code) => code == statusCode);
 

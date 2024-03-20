@@ -20,3 +20,8 @@ const verificationSchema = new mongoose.Schema<IVerfication>(
   },
   { timestamps: true }
 );
+
+export const Verification = mongoose.model<IVerfication>(
+  "User",
+  verificationSchema
+);
