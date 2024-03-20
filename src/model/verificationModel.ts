@@ -8,6 +8,7 @@ const verificationSchema = new mongoose.Schema<IVerfication>(
     },
     userId: {
       type: Schema.Types.ObjectId,
+      ref: "User",
       required: true,
     },
   },

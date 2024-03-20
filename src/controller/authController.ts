@@ -1,5 +1,5 @@
 import { Response, Request } from "express";
-import { validateAuth } from "../joi/authJoi";
+import { validateRegister, validateLogin } from "../joi/authJoi";
 import { errorResponse, successResponse } from "../helper/responseApi";
 import { User } from "../model/userModel";
 import { IUser } from "../types/userTypes";
@@ -7,12 +7,13 @@ import bcrypt from "bcryptjs";
 import { Verification } from "../model/verificationModel";
 import { randomString } from "../helper/randomString";
 import { sendEmail } from "../config/nodemailer";
+import jwt from "jsonwebtoken";
 
 export const register = async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body as IUser;
     // joi validation request body
-    const { error } = validateAuth(req.body);
+    const { error } = validateRegister(req.body);
 
     if (error) {
       return res.status(400).json(errorResponse(error.message, res.statusCode));
@@ -84,6 +85,55 @@ export const verifyUser = async (req: Request, res: Response) => {
       .status(200)
       .json(successResponse("Verified user", null, res.statusCode));
   } catch (err: any) {
-    return res.status(400).json(errorResponse(err.message, 400));
+    return res.status(400).json(errorResponse(err.message, res.statusCode));
+  }
+};
+
+export const login = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body as IUser;
+    const { error } = validateLogin(req.body);
+    if (error) {
+      res.status(400).json(errorResponse(error.message, res.statusCode));
+    }
+
+    const user = await User.findOne({ email });
+    if (!user) {
+      res
+        .status(400)
+        .json(errorResponse("Invalid Credentials", res.statusCode));
+    } else {
+      const checkPassword = await bcrypt.compare(password, user.password);
+
+      if (!checkPassword) {
+        res
+          .status(400)
+          .json(errorResponse("Invalid Credentials", res.statusCode));
+      }
+
+      if (user && checkPassword && !user.verified) {
+        res
+          .status(400)
+          .json(errorResponse("Verify your account to login", res.statusCode));
+      }
+
+      const payload = {
+        user: {
+          id: user._id,
+          name: user.name,
+          email: user.email,
+        },
+      };
+
+      const secret = process.env.JWT_SECRET || "Secret key";
+      const expiry = process.env.JWT_EXPIRY;
+      const token = jwt.sign({ payload }, secret, { expiresIn: expiry });
+
+      res
+        .status(200)
+        .json(successResponse("Login Success", token, res.statusCode));
+    }
+  } catch (err: any) {
+    res.status(400).json(errorResponse(err.message, res.statusCode));
   }
 };
