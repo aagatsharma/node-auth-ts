@@ -1,14 +1,6 @@
 import mongoose from "mongoose";
 import validator from "email-validator";
-
-interface IUser {
-  name: string;
-  email: string;
-  password: string;
-  verified: boolean;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { IUser } from "../types/userTypes";
 
 const userSchema = new mongoose.Schema<IUser>(
   {

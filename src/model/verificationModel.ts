@@ -1,12 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-
-interface IVerfication {
-  token: String;
-  userId: Schema.Types.ObjectId;
-  type: String;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { IVerfication } from "../types/userTypes";
 
 const verificationSchema = new mongoose.Schema<IVerfication>(
   {
@@ -22,6 +15,6 @@ const verificationSchema = new mongoose.Schema<IVerfication>(
 );
 
 export const Verification = mongoose.model<IVerfication>(
-  "User",
+  "Verification",
   verificationSchema
 );

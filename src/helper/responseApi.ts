@@ -27,7 +27,7 @@ export const errorResponse = (message: string, statusCode: number) => {
   if (!findCode) statusCode = 500;
   else statusCode = findCode;
   return {
-    message,
+    message: message,
     error: true,
     code: statusCode,
   };
