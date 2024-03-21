@@ -29,3 +29,15 @@ const loginSchema = Joi.object({
 export const validateLogin = (authData: loginInterface) => {
   return loginSchema.validate(authData);
 };
+
+interface resendVerificationInterface {
+  email: string;
+}
+
+const resendVerificationScheme = Joi.object({
+  email: Joi.string().required().email(),
+});
+
+export const validateResendEmail = (authData: resendVerificationInterface) => {
+  return resendVerificationScheme.validate(authData);
+};
