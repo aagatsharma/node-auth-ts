@@ -1,13 +1,13 @@
 export const successResponse = (
   message: string,
-  results: any,
+  data: any,
   statusCode: number
 ) => {
   return {
     message,
     error: false,
     code: statusCode,
-    results,
+    data,
   };
 };
 

@@ -195,3 +195,21 @@ export const resendVerification = async (req: Request, res: Response) => {
     return res.status(400).json(errorResponse(err.message, res.statusCode));
   }
 };
+
+// Get Profile Controller
+export const getProfile = async (req: Request, res: Response) => {
+  try {
+    const user = await User.findById(req.user?.id).select("-password");
+
+    if (!user)
+      return res
+        .status(404)
+        .json(errorResponse("User not found", res.statusCode));
+
+    res
+      .status(200)
+      .json(successResponse(`Hello ${user.name}`, { user }, res.statusCode));
+  } catch (err: any) {
+    return res.status(400).json(errorResponse(err.message, res.statusCode));
+  }
+};
