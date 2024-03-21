@@ -17,7 +17,6 @@ export const validateRegister = (authData: registerInterface) => {
 };
 
 interface loginInterface {
-  name: string;
   email: string;
   password: string;
 }
