@@ -138,7 +138,7 @@ export const login = async (req: Request, res: Response) => {
 
       return res
         .status(200)
-        .json(successResponse("Login Success", token, res.statusCode));
+        .json(successResponse("Login Success", { token }, res.statusCode));
     }
   } catch (err: any) {
     return res.status(400).json(errorResponse(err.message, res.statusCode));
