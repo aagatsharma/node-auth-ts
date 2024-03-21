@@ -13,6 +13,7 @@ import { randomString } from "../helper/randomString";
 import { sendEmail } from "../config/nodemailer";
 import jwt from "jsonwebtoken";
 
+// Register Controller
 export const register = async (req: Request, res: Response) => {
   try {
     const { name, email, password } = req.body as IUser;
@@ -63,6 +64,7 @@ export const register = async (req: Request, res: Response) => {
   }
 };
 
+// Verify User Controller
 export const verifyUser = async (req: Request, res: Response) => {
   const { token } = req.params;
   try {
@@ -93,6 +95,7 @@ export const verifyUser = async (req: Request, res: Response) => {
   }
 };
 
+// Login Controller
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body as IUser;
@@ -142,6 +145,7 @@ export const login = async (req: Request, res: Response) => {
   }
 };
 
+// Resend Verification Controller
 export const resendVerification = async (req: Request, res: Response) => {
   try {
     const { email } = req.body as IUser;
@@ -170,7 +174,7 @@ export const resendVerification = async (req: Request, res: Response) => {
 
       const newToken = await Verification.create({
         token: randomString(50),
-        userId: user?._id,
+        userId: user._id,
       });
 
       const url = `${process.env.URL}/auth/verify/${newToken.token}`;

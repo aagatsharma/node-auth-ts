@@ -1,5 +1,6 @@
 import Joi from "joi";
 
+// Register Body
 interface registerInterface {
   name: string;
   email: string;
@@ -16,6 +17,7 @@ export const validateRegister = (authData: registerInterface) => {
   return registerSchema.validate(authData);
 };
 
+// Login Body
 interface loginInterface {
   email: string;
   password: string;
@@ -30,6 +32,7 @@ export const validateLogin = (authData: loginInterface) => {
   return loginSchema.validate(authData);
 };
 
+// ResendVerification Body
 interface resendVerificationInterface {
   email: string;
 }
